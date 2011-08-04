@@ -24,7 +24,7 @@ function codemirror_scripts( $hook ){
 
 	wp_enqueue_script( 'codemirror-init', plugins_url('/plugin.js', __FILE__ ) );
 
- 	wp_enqueue_style( 'codemirror-docs', plugins_url('/lib/codemirror.css', __FILE__ ) );
+ 	wp_enqueue_style( 'codemirror-base', plugins_url('/lib/codemirror.css', __FILE__ ) );
 //	wp_enqueue_style( 'codemirror-default', plugins_url('/theme/default.css', __FILE__ ) );
  	wp_enqueue_style( 'codemirror-elegant', plugins_url('/theme/elegant.css', __FILE__ ) );
 // 	wp_enqueue_style( 'codemirror-neat', plugins_url('/theme/neat.css', __FILE__ ) );
