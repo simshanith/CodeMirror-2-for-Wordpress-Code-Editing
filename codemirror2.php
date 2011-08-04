@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: codemirror2-wordpress-editor
+Plugin Name: CodeMirror Highlighting for theme/plugin editor
 Plugin URI: http://codemirror.net
 Description: Adds syntax highlighting for the in-dashboard editor
 Version: 1.0
@@ -8,106 +8,29 @@ Author: Shane Daniel
 Author URI: http://simloovoo.com
 License: GPL2
 */
-$theme = 'default';
 
-function insertScripts($adminHead){
+function codemirror_scripts( $hook ){
 
-   
-   $mode = '"css"';
+	if ($hook != 'theme-editor.php' && $hook != 'plugin-editor.php') return;
 
-   if(isset($_GET['file']))
-     $mode = (strrchr($_GET['file'], '.php') == '.php') ? '"php"' : '"css"';
-  echo
-   '<script src="' . plugins_url() .
-   '/codemirror2/lib/codemirror.js"></script>
-   <link rel="stylesheet" href="' . plugins_url() .
-   '/codemirror2/lib/codemirror.css" />
-   <script src="' .plugins_url() .
-   '/codemirror2/mode/xml/xml.js"></script>
-   <script src="' .plugins_url() .
-   '/codemirror2/mode/javascript/javascript.js"></script>
-   <script src="' .plugins_url() .
-   '/codemirror2/mode/css/css.js"></script>
-   <script src="' .plugins_url() .
-   '/codemirror2/mode/clike/clike.js"></script>
-   <script src="' .plugins_url() .
-   '/codemirror2/mode/php/php.js"></script>
-   <link rel="stylesheet" href="' . plugins_url() .
-   '/codemirror2/theme/default.css" />
-   <link rel="stylesheet" href="' . plugins_url() .
-   '/codemirror2/theme/elegant.css" />
-   <link rel="stylesheet" href="' . plugins_url() .
-   '/codemirror2/theme/neat.css" />
-   <link rel="stylesheet" href="' . plugins_url() .
-   '/codemirror2/theme/night.css" />
-   <style>
-     #template .CodeMirror, #template .CodeMirror div {
-     margin-right: 40px;
-     height: auto;
-     }
+	wp_enqueue_script('jquery');
 
+	wp_enqueue_script( 'cm-lib-codemirror', plugins_url('/lib/codemirror.js', __FILE__ ) );
+	wp_enqueue_script( 'cm-mode-xml', plugins_url('/mode/xml/xml.js', __FILE__ ) );
+	wp_enqueue_script( 'cm-mode-javascript', plugins_url('/mode/javascript/javascript.js', __FILE__ ) );
+	wp_enqueue_script( 'cm-mode-css', plugins_url('/mode/css/css.js', __FILE__ ) );
+	wp_enqueue_script( 'cm-mode-clike', plugins_url('/mode/clike/clike.js', __FILE__ ) );
+	wp_enqueue_script( 'cm-mode-php', plugins_url('/mode/php/php.js', __FILE__ ) );
 
-     .CodeMirror .fullscreen {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            margin: 0;
-            padding: 0;
-            border: 0px solid #BBBBBB;
-            opacity: 1;
-';  
-  switch($theme){
-	case 'default':
-	case 'elegant':
-	case 'neat' :
-	  echo 'background-color: white;';
-	  break;
-  }
-echo '        }
-   </style>
-   <script>
-     jQuery(document).ready(function(){
+	wp_enqueue_script( 'codemirror-init', plugins_url('/plugin.js', __FILE__ ) );
 
-function toggleFullscreenEditing()
-    {
-        var editorDiv = jQuery(".CodeMirror-scroll");
-        if (!editorDiv.hasClass("fullscreen")) {
-            toggleFullscreenEditing.beforeFullscreen = { height: editorDiv.height(), width: editorDiv.width() }
-            editorDiv.addClass("fullscreen");
-            editorDiv.height("100%");
-            editorDiv.width("100%");
-            editor.refresh();
-        }
-        else {
-            editorDiv.removeClass("fullscreen");
-            editorDiv.height(toggleFullscreenEditing.beforeFullscreen.height);
-            editorDiv.width(toggleFullscreenEditing.beforeFullscreen.width);
-            editor.refresh();
-        }
-    }
-	var textarea =  document.getElementById("newcontent");
-		if(textarea){
-			CodeMirror.fromTextArea(document.getElementById("newcontent"),
-			{
-			theme: "elegant",
-			mode: '.$mode.',
-			lineNumbers: true,
-                        onKeyEvent: function(i, e) {
-                         // Hook into F11
-                       	   if ((e.keyCode == 122 || e.keyCode == 27) && e.type == "keydown") {
-                        	   e.stop();
-                           	   return toggleFullscreenEditing();
-             			}
-        		},
-			});
-		}
-     });
-   </script>';
+ 	wp_enqueue_style( 'codemirror-docs', plugins_url('/lib/codemirror.css', __FILE__ ) );
+//	wp_enqueue_style( 'codemirror-default', plugins_url('/theme/default.css', __FILE__ ) );
+ 	wp_enqueue_style( 'codemirror-elegant', plugins_url('/theme/elegant.css', __FILE__ ) );
+// 	wp_enqueue_style( 'codemirror-neat', plugins_url('/theme/neat.css', __FILE__ ) );
+// 	wp_enqueue_style( 'codemirror-night', plugins_url('/theme/night.css', __FILE__ ) );
+
+	wp_enqueue_style( 'codemirror-init', plugins_url('/plugin.css', __FILE__ ) );
 }
 
-add_action('admin_head', 'insertScripts');
-?>
+add_action('admin_enqueue_scripts', 'codemirror_scripts');
