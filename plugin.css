@@ -15,4 +15,5 @@
 	padding: 0;
 	border: 0px solid #BBBBBB;
 	opacity: 1;
+	background: white; /* needed for elegant theme. breaks night theme */
 }
