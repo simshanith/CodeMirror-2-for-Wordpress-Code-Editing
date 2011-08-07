@@ -1,25 +1,5 @@
 jQuery(document).ready(function() {
 
-    function toggleFullscreenEditing() {
-        var editorDiv = jQuery(".CodeMirror-scroll");
-        if (!editorDiv.hasClass("fullscreen")) {
-            toggleFullscreenEditing.beforeFullscreen = {
-                height: editorDiv.height(),
-                width: editorDiv.width()
-            }
-            editorDiv.addClass("fullscreen");
-            editorDiv.height("100%");
-            editorDiv.width("100%");
-            editor.refresh();
-        }
-        else {
-            editorDiv.removeClass("fullscreen");
-            editorDiv.height(toggleFullscreenEditing.beforeFullscreen.height);
-            editorDiv.width(toggleFullscreenEditing.beforeFullscreen.width);
-            editor.refresh();
-        }
-    }
-
     var span = jQuery('h3 span');
     
     if ('0' != span.length) {
@@ -37,7 +17,7 @@ jQuery(document).ready(function() {
   
   var textarea = document.getElementById("newcontent");
   if (textarea) {
-    CodeMirror.fromTextArea(document.getElementById("newcontent"), {
+    var editor = CodeMirror.fromTextArea(textarea, {
       theme: "elegant",
       mode: mode,
       lineNumbers: true,
@@ -49,5 +29,24 @@ jQuery(document).ready(function() {
         }
       },
     });
+
+    function toggleFullscreenEditing() {
+        var editorDiv = jQuery(".CodeMirror-scroll");
+        if (!editorDiv.hasClass("fullscreen")) {
+          toggleFullscreenEditing.beforeFullscreen = {
+            height: editorDiv.height(),
+            width: editorDiv.width()
+          }
+          editorDiv.addClass("fullscreen");
+          editorDiv.height("100%");
+          editorDiv.width("100%");
+          editor.refresh();
+        } else {
+          editorDiv.removeClass("fullscreen");
+          editorDiv.height(toggleFullscreenEditing.beforeFullscreen.height);
+          editorDiv.width(toggleFullscreenEditing.beforeFullscreen.width);
+          editor.refresh();
+        }
+    }
   }
 });
