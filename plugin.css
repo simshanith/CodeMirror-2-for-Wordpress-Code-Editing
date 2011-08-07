@@ -1,8 +1,9 @@
-#template .CodeMirror, #template .CodeMirror div {
-	margin-right: 40px;
+#template .CodeMirror div {
+	margin-right: 0px;
 	height: auto;
 }
 
+#template > div > div.CodeMirror {margin-right: 40px;}
 .CodeMirror .fullscreen {
 	display: block;
 	position: absolute;
